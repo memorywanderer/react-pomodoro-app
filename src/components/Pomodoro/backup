@@ -1,0 +1,51 @@
+{!state && <PomodoroOptions
+          onSessionChange={handleSessionDuration}
+          onBreakChange={handleBreakDuration}
+          sessionDuration={sessionDuration}
+          breakDuration={breakDuration}
+          sessionValue={sessionValue}
+          breakValue={breakValue}
+          addSessionTime={handleAddSessionTime}
+          downSessionTime={handleDownSessionTime}
+          addBreakTime={handleAddBreakTime}
+          downBreakTime={handleDownBreakTime} />}
+
+          const handleSessionDuration = (e) => {
+    setSessionValue(e.target.value)
+  }
+
+  const handleBreakDuration = (e) => {
+    setBreakValue(e.target.value)
+  }
+
+  const handleAddSessionTime = () => {
+    if (sessionDuration < MAX_TIME) {
+      setSessionValue(+sessionValue + 1)
+    } else {
+      setSessionValue(MAX_TIME / MINUTE)
+    }
+  }
+
+  const handleDownSessionTime = () => {
+    if (sessionDuration > MIN_TIME) {
+      setSessionValue(+sessionValue - 1)
+    } else {
+      setSessionValue(MAX_TIME / MINUTE)
+    }
+  }
+
+  const handleAddBreakTime = () => {
+    if (breakDuration < MAX_TIME) {
+      setBreakValue(+breakValue + 1)
+    } else {
+      setBreakValue(MAX_TIME / MINUTE)
+    }
+  }
+
+  const handleDownBreakTime = () => {
+    if (breakDuration > MIN_TIME) {
+      setBreakValue(+breakDuration - 1)
+    } else {
+      setBreakValue(MIN_TIME / MINUTE)
+    }
+  }
