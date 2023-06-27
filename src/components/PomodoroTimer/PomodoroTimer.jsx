@@ -20,8 +20,8 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
   const [sessionCounter, setSessionCounter] = useState(0)
   const [breakCounter, setBreakCounter] = useState(0)
   const [isReset, setIsReset] = useState(false)
-  const notificationSound = useMemo(() => new Audio('./public/sounds/quick-chime.wav'), [])
-  const buttonClickSound = useMemo(() => new Audio('./public/sounds/click-sound.wav'), [])
+  const notificationSound = useMemo(() => new Audio('../../sounds/quick-chime.wav'), [])
+  const buttonClickSound = useMemo(() => new Audio('../../sounds/click-sound.wav'), [])
 
   useEffect(() => {
     (sessionCounter !== 0) && setWithExpiry('sessions', sessionCounter, nearMidnight.getTime());
@@ -139,21 +139,21 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
   }
 
   return (
-    <div className="timer pomodoro__timer">
-      <h3 className='timer__title'>Focus Clock</h3>
-      <h4 className='timer__title'>Sessions today: {sessionCounter}</h4>
-      <h4 className='timer__title'>Breaks today: {breakCounter}</h4>
+    <section className="timer pomodoro__timer">
+      <h1 className='timer__title'>Focus Clock</h1>
+      <p className='timer__title'>Sessions today: {sessionCounter}</p>
+      <p className='timer__title'>Breaks today: {breakCounter}</p>
       <TimerCountdown
         running={running}
         time={timespan}
       />
-      <div className="timer__controls">
+      <section className="timer__controls">
         {!running
           ? <StartButton onStartClick={handleOnStartClick} />
           : <PauseButton onPauseClick={handleOnPauseClick} />}
         {!running && <ResetButton onResetClick={handleOnResetClick} />}
-      </div>
+      </section>
 
-    </div>
+    </section>
   )
 }
