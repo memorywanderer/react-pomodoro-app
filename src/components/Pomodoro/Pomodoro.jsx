@@ -26,8 +26,6 @@ export default function Pomodoro() {
   const [isActive, dispatch] = useReducer(reducer, false)
   const [sessionDuration, setSessionDuration] = useState(DEFAULT_SESSION_TIME)
   const [breakDuration, setBreakDuration] = useState(DEFAULT_BREAK_TIME)
-  // const [sessionValue, sessionDispatch] = useReducer(sessionReducer, DEFAULT_SESSION_TIME / MINUTE)
-  // const [breakValue, breakDispatch] = useReducer(breakReducer, DEFAULT_BREAK_TIME / MINUTE)
   const { state } = useContext(Store)
   const { sessionTime, breakTime } = state
 

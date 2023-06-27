@@ -20,7 +20,8 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
   const [sessionCounter, setSessionCounter] = useState(0)
   const [breakCounter, setBreakCounter] = useState(0)
   const [isReset, setIsReset] = useState(false)
-  // let notificationSound = useMemo(() => new Audio("./assets/notify.mp3"))
+  const notificationSound = useMemo(() => new Audio('./public/sounds/quick-chime.wav'), [])
+  const buttonClickSound = useMemo(() => new Audio('./public/sounds/click-sound.wav'), [])
 
   useEffect(() => {
     (sessionCounter !== 0) && setWithExpiry('sessions', sessionCounter, nearMidnight.getTime());
@@ -79,7 +80,7 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
                   notification.addEventListener('error', e => alert('Error'))
                 }
               }))
-
+            notificationSound.play()
             setIsSession(false)
             setIsBreak(true)
             clearInterval(intervalId);
@@ -101,7 +102,7 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
                   notification.addEventListener('error', e => alert('Error'))
                 }
               }))
-
+            notificationSound.play()
             setIsSession(true)
             setIsBreak(false)
             clearInterval(intervalId);
@@ -125,10 +126,12 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
 
   const handleOnStartClick = () => {
     dispatch({ type: 'start_timer' })
+    buttonClickSound.play()
   }
 
   const handleOnPauseClick = () => {
     dispatch({ type: 'stop_timer' })
+    buttonClickSound.play()
   }
 
   const handleOnResetClick = () => {
