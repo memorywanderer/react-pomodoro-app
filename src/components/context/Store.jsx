@@ -18,7 +18,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'HANDLE_SESSION': {
       const { event } = action.payload
-      if (event.target.value > MIN_TIME / MINUTE && event.target.value < MAX_TIME / MINUTE) {
+      if (event.target.value > MIN_TIME / MINUTE || event.target.value < MAX_TIME / MINUTE) {
+        console.log('handle sesion', event.target.value)
         return {
           ...state,
           sessionTime: event.target.value
@@ -65,7 +66,7 @@ const reducer = (state, action) => {
 
     case 'HANDLE_BREAK': {
       const { event } = action.payload
-      if (event.target.value > MIN_TIME / MINUTE && event.target.value < MAX_TIME / MINUTE) {
+      if (event.target.value > MIN_TIME / MINUTE || event.target.value < MAX_TIME / MINUTE) {
         return {
           ...state,
           breakTime: event.target.value
