@@ -51,7 +51,7 @@ export default function Pomodoro() {
 
   return (
     <>
-      <div className="pomodoro">
+      <section className="pomodoro">
         <PomodoroTimer
           running={isActive}
           sessionDuration={sessionDuration}
@@ -59,7 +59,7 @@ export default function Pomodoro() {
           dispatch={dispatch}
         />
         {!isActive && <PomodoroOptions />}
-      </div>
+      </section>
       <div className="decoration decoration--one"></div>
       <div className="decoration decoration--two"></div>
     </>
