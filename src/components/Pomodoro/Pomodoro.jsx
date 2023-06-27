@@ -1,14 +1,17 @@
-import { useEffect, useMemo, useReducer, useState } from 'react'
-import PomodoroTimer from '..//PomodoroTimer/PomodoroTimer.jsx'
+import { useContext, useEffect, useReducer, useState } from 'react'
+import PomodoroTimer from '../PomodoroTimer/PomodoroTimer.jsx'
 import PomodoroOptions from '../PomodoroOptions/PomodoroOptions.jsx'
 
 import './Pomodoro.css'
 
-import sessionReducer from '../SessionReducer'
-import breakReducer from '../BreakReducer.js'
-
-import { DEFAULT_SESSION_TIME, DEFAULT_BREAK_TIME, MIN_TIME, MINUTE, MAX_TIME } from '../TimeConstants.js'
-import { PomodoroContext } from '../context/PomodoroContext.js'
+import {
+  DEFAULT_SESSION_TIME,
+  DEFAULT_BREAK_TIME,
+  MIN_TIME,
+  MINUTE,
+  MAX_TIME
+} from '../../constants/timeConstants'
+import { Store } from '../context/Store.jsx'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -20,45 +23,44 @@ const reducer = (state, action) => {
 }
 
 export default function Pomodoro() {
-  const [state, dispatch] = useReducer(reducer, false)
+  const [isActive, dispatch] = useReducer(reducer, false)
   const [sessionDuration, setSessionDuration] = useState(DEFAULT_SESSION_TIME)
   const [breakDuration, setBreakDuration] = useState(DEFAULT_BREAK_TIME)
-  const [sessionValue, sessionDispatch] = useReducer(sessionReducer, DEFAULT_SESSION_TIME / MINUTE)
-  const [breakValue, breakDispatch] = useReducer(breakReducer, DEFAULT_BREAK_TIME / MINUTE)
+  // const [sessionValue, sessionDispatch] = useReducer(sessionReducer, DEFAULT_SESSION_TIME / MINUTE)
+  // const [breakValue, breakDispatch] = useReducer(breakReducer, DEFAULT_BREAK_TIME / MINUTE)
+  const { state } = useContext(Store)
+  const { sessionTime, breakTime } = state
 
   useEffect(() => {
-    if (sessionValue * MINUTE <= MIN_TIME) {
+    if (sessionTime * MINUTE <= MIN_TIME) {
       setSessionDuration(MIN_TIME)
-    } else if (sessionValue * MINUTE >= MAX_TIME) {
+    } else if (sessionTime * MINUTE >= MAX_TIME) {
       setSessionDuration(MAX_TIME)
     } else {
-      setSessionDuration(sessionValue * MINUTE)
+      setSessionDuration(sessionTime * MINUTE)
     }
-  }, [sessionValue])
+  }, [sessionTime])
 
   useEffect(() => {
-    if (breakValue * MINUTE <= MIN_TIME) {
+    if (breakTime * MINUTE <= MIN_TIME) {
       setBreakDuration(MIN_TIME)
-    } else if (breakValue * MINUTE >= MAX_TIME) {
+    } else if (breakTime * MINUTE >= MAX_TIME) {
       setBreakDuration(MAX_TIME)
     } else {
-      setBreakDuration(breakValue * MINUTE)
+      setBreakDuration(breakTime * MINUTE)
     }
-  }, [breakValue])
+  }, [breakTime])
 
   return (
     <>
       <div className="pomodoro">
         <PomodoroTimer
-          running={state}
+          running={isActive}
           sessionDuration={sessionDuration}
           breakDuration={breakDuration}
           dispatch={dispatch}
         />
-        {!state &&
-          <PomodoroContext.Provider value={{ sessionDispatch, breakDispatch, sessionValue, breakValue }}>
-            <PomodoroOptions />
-          </PomodoroContext.Provider>}
+        {!isActive && <PomodoroOptions />}
       </div>
       <div className="decoration decoration--one"></div>
       <div className="decoration decoration--two"></div>

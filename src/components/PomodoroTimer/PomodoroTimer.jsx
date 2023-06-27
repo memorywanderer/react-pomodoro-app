@@ -7,7 +7,7 @@ import StartButton from './StartButton.jsx'
 import PauseButton from './PauseButton.jsx'
 import ResetButton from './ResetButton.jsx'
 
-import { INTERVAL } from '../TimeConstants'
+import { INTERVAL } from '../../constants/timeConstants'
 const nearMidnight = new Date(new Date().setHours(24, 0, 0, 0))
 
 export default function PomodoroTimer({ running, dispatch, sessionDuration, breakDuration }) {
@@ -20,7 +20,7 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
   const [sessionCounter, setSessionCounter] = useState(0)
   const [breakCounter, setBreakCounter] = useState(0)
   const [isReset, setIsReset] = useState(false)
-  let notificationSound = useMemo(() => new Audio("./assets/notify.mp3"))
+  // let notificationSound = useMemo(() => new Audio("./assets/notify.mp3"))
 
   useEffect(() => {
     (sessionCounter !== 0) && setWithExpiry('sessions', sessionCounter, nearMidnight.getTime());
@@ -75,7 +75,6 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
             Notification.requestPermission()
               .then((perm => {
                 if (perm === 'granted') {
-                  notificationSound.play()
                   const notification = new Notification("Session has come to the end!", {})
                   notification.addEventListener('error', e => alert('Error'))
                 }
@@ -98,7 +97,6 @@ export default function PomodoroTimer({ running, dispatch, sessionDuration, brea
             Notification.requestPermission()
               .then((perm => {
                 if (perm === 'granted') {
-                  notificationSound.play()
                   const notification = new Notification("Break has come to the end!", {})
                   notification.addEventListener('error', e => alert('Error'))
                 }

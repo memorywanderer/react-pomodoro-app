@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
-import { PomodoroContext } from '../context/PomodoroContext'
+import { Store } from '../context/Store'
 
 export default function PomodoroOptionsInput({ type }) {
+  const { state, dispatch } = useContext(Store)
+  const { sessionTime, breakTime } = state
 
-  const { sessionDispatch, breakDispatch, sessionValue, breakValue } = useContext(PomodoroContext)
-
-  function onSessionChange(e) {
-    sessionDispatch({ type: 'handle_session', e })
+  function onSessionChange(event) {
+    dispatch({ type: 'HANDLE_SESSION', payload: { event } })
   }
 
-  function onBreakChange(e) {
-    breakDispatch({ type: 'handle_break', e })
+  function onBreakChange(event) {
+    dispatch({ type: 'HANDLE_BREAK', payload: { event } })
   }
 
   return (
@@ -18,8 +18,8 @@ export default function PomodoroOptionsInput({ type }) {
       <button
         onClick={
           (type === 'session')
-            ? () => sessionDispatch({ type: 'add_session_time' })
-            : () => breakDispatch({ type: 'add_break_time' })}
+            ? () => dispatch({ type: 'SESSION_ADD_TIME' })
+            : () => dispatch({ type: 'BREAK_ADD_TIME' })}
         className="btn-up input__btn-up"
       >
         <i className="fas fa-angle-double-up"></i>
@@ -32,16 +32,16 @@ export default function PomodoroOptionsInput({ type }) {
             : onBreakChange}
         value={
           (type === 'session')
-            ? sessionValue
-            : breakValue
+            ? sessionTime
+            : breakTime
         }
         type="number"
         className="input__field" />
       <button
         onClick={
           (type === 'session')
-            ? () => sessionDispatch({ type: 'down_session_time' })
-            : () => breakDispatch({ type: 'down_break_time' })}
+            ? () => dispatch({ type: 'SESSION_REMOVE_TIME' })
+            : () => dispatch({ type: 'BREAK_REMOVE_TIME' })}
         className="btn-down input__btn-down"
       >
         <i className="fas fa-angle-double-down"></i>
